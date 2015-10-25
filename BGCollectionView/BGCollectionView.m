@@ -95,17 +95,11 @@
                     _showHintDescLabel.textColor = UIColorFromHex(0xaaaaaa);
                     _showHintDescLabel.tag = 2001;
                     [_loadMoreButton addSubview:_showHintDescLabel];
-                    NSDictionary *showHintLabelAttDic = [NSDictionary dictionaryWithObjectsAndKeys:_showHintDescLabel.font,NSFontAttributeName, nil];
-                    CGSize showHintLabelRect = [_showHintDescLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 13) options:NSStringDrawingUsesFontLeading attributes:showHintLabelAttDic context:nil].size;
-                    _showHintDescLabel.size = showHintLabelRect;
-                    _showHintDescLabel.top = (_loadMoreButton.height - _showHintDescLabel.height) / 2.0;
-                    _showHintDescLabel.left = (_loadMoreButton.width - _showHintDescLabel.width) / 2.0;
                     _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
                     _activityView.frame = CGRectMake(100, 10, 20, 20);
-                    _activityView.right = _showHintDescLabel.left - 5;
-                    _activityView.top = (_loadMoreButton.height - _activityView.height) / 2.0;
                     _activityView.hidden = NO;
                     [_activityView startAnimating];
+                    [self refreshHintLabelFrame];
                     [_loadMoreButton addSubview:_activityView];
                     [_collectionFooterView addSubview:_loadMoreButton];
                 }
@@ -127,9 +121,21 @@
     }
 }
 
+- (void)refreshHintLabelFrame {
+    NSDictionary *showHintLabelAttDic = [NSDictionary dictionaryWithObjectsAndKeys:_showHintDescLabel.font,NSFontAttributeName, nil];
+    CGSize showHintLabelRect = [_showHintDescLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 13) options:NSStringDrawingUsesFontLeading attributes:showHintLabelAttDic context:nil].size;
+    _showHintDescLabel.size = showHintLabelRect;
+    _showHintDescLabel.top = (_loadMoreButton.height - _showHintDescLabel.height) / 2.0;
+    _showHintDescLabel.left = (_loadMoreButton.width - _showHintDescLabel.width) / 2.0;
+    _activityView.right = _showHintDescLabel.left - 5;
+    _activityView.top = (_loadMoreButton.height - _activityView.height) / 2.0;
+}
 
 - (void)loadMoreDataLoadingUI {
-    [_loadMoreButton setTitle:@"正在加载..." forState:UIControlStateNormal];
+//    [_loadMoreButton setTitle:@"正在加载中..." forState:UIControlStateNormal];
+    _showHintDescLabel.text = @"正在加载中...";
+    [self refreshHintLabelFrame];
+    [_activityView stopAnimating];
     _loadMoreButton.enabled = NO;
     [_activityView startAnimating];
 }
@@ -139,7 +145,9 @@
     if (self.dataList.count > 0) {
         _loadMoreButton.hidden = NO;
         _loadMoreButton.enabled = YES;
-        [_loadMoreButton setTitle:@"上拉加载更多..." forState:UIControlStateNormal];
+//        [_loadMoreButton setTitle:@"上拉加载更多图片..." forState:UIControlStateNormal];
+        _showHintDescLabel.text = @"上拉加载更多图片...";
+        [self refreshHintLabelFrame];
         [_activityView stopAnimating];
         if (!_isPullMore) {
             _loadMoreButton.hidden = YES;

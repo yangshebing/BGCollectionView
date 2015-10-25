@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "EGORefreshTableHeaderView.h"
 @class BGCollectionView;
-typedef void (^PullDownRefreshBlock)(BGCollectionView *collectionView);
-typedef void (^PullUpRefreshBlock)(BGCollectionView *collectionView);
+typedef void (^PullDownRefreshBlock)(UICollectionView *collectionView);
+typedef void (^PullUpRefreshBlock)(UICollectionView *collectionView);
 
 @interface BGCollectionView : UICollectionView
 {

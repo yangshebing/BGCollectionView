@@ -8,8 +8,12 @@
 
 #import "RootViewController.h"
 #import "BGCollectionView.h"
+#define DelayTimeSecond 3
 
 @interface RootViewController ()
+{
+    BGCollectionView *_waterFlowCollectionView;
+}
 
 @end
 
@@ -19,7 +23,8 @@
     [super viewDidLoad];
     self.title = @"瀑布流式布局";
     self.navigationController.navigationBar.translucent = NO;
-    [self loadPicturesUrlData];
+//    [self loadPicturesUrlData];
+    [self loadPicturesUrlDataFromPlistFile];
     [self initSubviews];
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -28,20 +33,69 @@
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"pic_url.plist" ofType:nil];
     NSArray *dataArr = [NSArray arrayWithContentsOfFile:filePath];
-    self.dataArr = dataArr;
+    NSMutableArray *spaceArr = [NSMutableArray array];
+    NSMutableArray *internalArr = nil;
+    for (int i = 0; i < dataArr.count; i++) {
+        if (i % 21 == 0) {
+            internalArr = [NSMutableArray array];
+            [spaceArr addObject:internalArr];
+        }
+        [internalArr addObject:dataArr[i]];
+    }
+    
+    self.dataArr = spaceArr;
 }
 
-- (void)initSubviews
-{
+- (void)loadNewRefreshData {
+    if (self.dataArr.count > 0) {
+        [_waterFlowCollectionView.dataList removeAllObjects];
+        [_waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr[0]];
+    }
+    if (_waterFlowCollectionView.dataList.count < 21) {
+        _waterFlowCollectionView.isPullMore = NO;
+    } else {
+        _waterFlowCollectionView.isPullMore = YES;
+    }
+
+    [_waterFlowCollectionView reloadData];
+    [_waterFlowCollectionView pullDownLoadingData];
+}
+
+- (void)loadMoreRefreshData {
+    if (self.dataArr.count > 0) {
+        [_waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr[1]];
+    }
+    
+    if (_waterFlowCollectionView.dataList.count < 21) {
+        _waterFlowCollectionView.isPullMore = NO;
+    } else {
+        _waterFlowCollectionView.isPullMore = YES;
+    }
+    
+    [_waterFlowCollectionView reloadData];
+    [_waterFlowCollectionView stopPullUpLoading];
+}
+
+- (void)initSubviews {
 //    WaterFlowCollectionViewLayout *emojiFlowLayout = [[WaterFlowCollectionViewLayout alloc] init];
 //    emojiFlowLayout.delegate = self;
     UICollectionViewFlowLayout *waterFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     waterFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     waterFlowLayout.sectionInset = UIEdgeInsetsMake(20, 15, 0, 15);
     
-    BGCollectionView *waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight - 64) collectionViewLayout:waterFlowLayout];
-    [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
-    [self.view addSubview:waterFlowCollectionView];
+    _waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight - 64) collectionViewLayout:waterFlowLayout];
+//    [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
+    __weak __typeof(self)weakSelf = self;
+    _waterFlowCollectionView.pullDownRefreshBlock = ^(UICollectionView *collectionView) {
+        [weakSelf performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:DelayTimeSecond];
+    };
+    
+    _waterFlowCollectionView.pullUpRefreshBlock = ^(UICollectionView *collectionView) {
+        [weakSelf performSelector:@selector(loadMoreRefreshData) withObject:nil afterDelay:DelayTimeSecond];
+    };
+    
+    [self performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:DelayTimeSecond];
+    [self.view addSubview:_waterFlowCollectionView];
     
 }
 
