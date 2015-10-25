@@ -1,0 +1,18 @@
+//
+//  BGCollectionView-Prefix.pch
+//  BGCollectionView
+//
+//  Created by 杨社兵 on 15/10/25.
+//  Copyright © 2015年 FAL. All rights reserved.
+//
+
+#ifndef BGCollectionView_Prefix_pch
+#define BGCollectionView_Prefix_pch
+
+#import "UIView+Extra.h"
+#import "Common.h"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* BGCollectionView_Prefix_pch */
