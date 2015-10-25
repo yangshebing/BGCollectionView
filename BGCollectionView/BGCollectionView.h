@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  BGCollectionView.h
 //  BGCollectionView
 //
 //  Created by 杨社兵 on 15/10/25.
@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UIViewController
-@property (nonatomic, strong) NSArray *dataArr;
+@interface BGCollectionView : UICollectionView
+@property (nonatomic, strong)  NSMutableArray *dataList;
 
 @end
-
