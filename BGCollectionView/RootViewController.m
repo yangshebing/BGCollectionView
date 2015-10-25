@@ -23,6 +23,27 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (void)loadPicturesUrlDataFromPlistFile
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"pic_url.plist" ofType:nil];
+    NSArray *dataArr = [NSArray arrayWithContentsOfFile:filePath];
+    self.dataArr = dataArr;
+}
+
+- (void)initSubviews
+{
+//    WaterFlowCollectionViewLayout *emojiFlowLayout = [[WaterFlowCollectionViewLayout alloc] init];
+//    emojiFlowLayout.delegate = self;
+    UICollectionViewFlowLayout *waterFlowLayout = [[UICollectionViewFlowLayout alloc] init];
+    waterFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    waterFlowLayout.sectionInset = UIEdgeInsetsMake(20, 15, 0, 15);
+    
+    BGCollectionView *waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight) collectionViewLayout:waterFlowLayout];
+    [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
+    [self.view addSubview:waterFlowCollectionView];
+    
+}
+
 - (void)loadPicturesUrlData
 {
     NSArray *dataArr = @[
@@ -63,19 +84,6 @@
     self.dataArr = dataArr;
 }
 
-- (void)initSubviews
-{
-//    WaterFlowCollectionViewLayout *emojiFlowLayout = [[WaterFlowCollectionViewLayout alloc] init];
-//    emojiFlowLayout.delegate = self;
-    UICollectionViewFlowLayout *waterFlowLayout = [[UICollectionViewFlowLayout alloc] init];
-    waterFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    waterFlowLayout.sectionInset = UIEdgeInsetsMake(20, 15, 0, 15);
-    
-    BGCollectionView *waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight) collectionViewLayout:waterFlowLayout];
-    [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
-    [self.view addSubview:waterFlowCollectionView];
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
