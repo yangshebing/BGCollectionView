@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"瀑布流式布局";
+    self.navigationController.navigationBar.translucent = NO;
     [self loadPicturesUrlData];
     [self initSubviews];
     // Do any additional setup after loading the view, typically from a nib.
@@ -38,7 +39,7 @@
     waterFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     waterFlowLayout.sectionInset = UIEdgeInsetsMake(20, 15, 0, 15);
     
-    BGCollectionView *waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight) collectionViewLayout:waterFlowLayout];
+    BGCollectionView *waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight - 64) collectionViewLayout:waterFlowLayout];
     [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
     [self.view addSubview:waterFlowCollectionView];
     
