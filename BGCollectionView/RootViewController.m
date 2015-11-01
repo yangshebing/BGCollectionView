@@ -8,9 +8,11 @@
 
 #import "RootViewController.h"
 #import "BGCollectionView.h"
+#import "BGCollectionViewFlowLayout.h"
+
 #define DelayTimeSecond 3
 
-@interface RootViewController ()
+@interface RootViewController () <BGCollectionViewFlowLayoutDelegate>
 {
     BGCollectionView *_waterFlowCollectionView;
 }
@@ -71,17 +73,27 @@
     } else {
         _waterFlowCollectionView.isPullMore = YES;
     }
-    
+
     [_waterFlowCollectionView reloadData];
     [_waterFlowCollectionView stopPullUpLoading];
 }
 
 - (void)initSubviews {
-//    WaterFlowCollectionViewLayout *emojiFlowLayout = [[WaterFlowCollectionViewLayout alloc] init];
-//    emojiFlowLayout.delegate = self;
+#if 1
+    BGCollectionViewFlowLayout *waterFlowLayout = [[BGCollectionViewFlowLayout alloc] init];
+    waterFlowLayout.delegate = self;
+    waterFlowLayout.columnNum = 4;
+    waterFlowLayout.itemSpacing = 15;
+//    waterFlowLayout.topSpacing = 10;
+//    waterFlowLayout.bottomSpacing = 60;
+//    waterFlowLayout.leftSpacing = 10;
+//    waterFlowLayout.rightSpacing = 10;
+    waterFlowLayout.bSectionInset = BGEdgeInsetsMake(10, 10, 10, 10);
+#else
     UICollectionViewFlowLayout *waterFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     waterFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     waterFlowLayout.sectionInset = UIEdgeInsetsMake(20, 15, 0, 15);
+#endif
     
     _waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight - 64) collectionViewLayout:waterFlowLayout];
 //    [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
@@ -97,6 +109,15 @@
     [self performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:DelayTimeSecond];
     [self.view addSubview:_waterFlowCollectionView];
     
+}
+
+#pragma mark - BGCollectionViewFlowLayoutDelegate
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(BGCollectionViewFlowLayout *)layout
+ heightForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+//    return 100;
+    return 100 + (rand() % 100);
 }
 
 - (void)loadPicturesUrlData

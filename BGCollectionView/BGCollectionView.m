@@ -198,11 +198,6 @@
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
-//设置组间距
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-//{
-//    return 1.0f;
-//}
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section  {
     return CGSizeMake(collectionView.width, 0.1);
 }
@@ -211,7 +206,7 @@
     return CGSizeMake(collectionView.width, 64);
 }
 
-- (CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake((bScreenWidth - 30 - 33) / 3.0, (bScreenWidth - 30 - 33) / 3.0 + 15);
 }
 

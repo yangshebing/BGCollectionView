@@ -38,7 +38,7 @@
     [super layoutSubviews];
     self.picImgView.size = self.bounds.size;
     NSURL *url = [NSURL URLWithString:self.urlStr];
-    [self.picImgView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [self.picImgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
     }];
     

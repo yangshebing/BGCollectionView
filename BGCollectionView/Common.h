@@ -15,4 +15,13 @@
 #define bScreenWidth [UIScreen mainScreen].bounds.size.width
 #define bScreenHeight [UIScreen mainScreen].bounds.size.height
 
+typedef struct BGEdgeInsets {
+    CGFloat top, left, bottom, right;
+} BGEdgeInsets;
+
+UIKIT_STATIC_INLINE BGEdgeInsets BGEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right) {
+    BGEdgeInsets insets = {top, left, bottom, right};
+    return insets;
+}
+
 #endif /* Common_h */
