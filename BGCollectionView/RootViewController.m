@@ -10,8 +10,7 @@
 #import "BGCollectionView.h"
 #import "BGCollectionViewFlowLayout.h"
 
-#define DelayTimeSecond 3
-
+static const CGFloat delayTiemSecond = 3;
 @interface RootViewController () <BGCollectionViewFlowLayoutDelegate>
 {
     BGCollectionView *_waterFlowCollectionView;
@@ -99,14 +98,14 @@
 //    [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
     __weak __typeof(self)weakSelf = self;
     _waterFlowCollectionView.pullDownRefreshBlock = ^(UICollectionView *collectionView) {
-        [weakSelf performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:DelayTimeSecond];
+        [weakSelf performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:delayTiemSecond];
     };
     
     _waterFlowCollectionView.pullUpRefreshBlock = ^(UICollectionView *collectionView) {
-        [weakSelf performSelector:@selector(loadMoreRefreshData) withObject:nil afterDelay:DelayTimeSecond];
+        [weakSelf performSelector:@selector(loadMoreRefreshData) withObject:nil afterDelay:delayTiemSecond];
     };
     
-    [self performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:DelayTimeSecond];
+    [self performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:delayTiemSecond];
     [self.view addSubview:_waterFlowCollectionView];
     
 }
