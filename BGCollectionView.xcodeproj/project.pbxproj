@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B83B022F1BDCC927009B12E4 /* UIView+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = B83B022E1BDCC927009B12E4 /* UIView+Extra.m */; };
-		B83B02371BDD1186009B12E4 /* BGCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B83B02361BDD1186009B12E4 /* BGCollectionView.m */; };
-		B83B023A1BDD1198009B12E4 /* BGCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B83B02391BDD1198009B12E4 /* BGCollectionViewCell.m */; };
-		B83B023D1BDD11BF009B12E4 /* BGCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B83B023C1BDD11BF009B12E4 /* BGCollectionViewFlowLayout.m */; };
 		B83B02611BDD1561009B12E4 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B83B02411BDD1561009B12E4 /* MKAnnotationView+WebCache.m */; };
 		B83B02621BDD1561009B12E4 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = B83B02431BDD1561009B12E4 /* NSData+ImageContentType.m */; };
 		B83B02631BDD1561009B12E4 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B83B02451BDD1561009B12E4 /* SDImageCache.m */; };
@@ -43,6 +40,9 @@
 		B85AD8B11BDCAFD000F346B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B85AD8B01BDCAFD000F346B1 /* Assets.xcassets */; };
 		B85AD8BF1BDCAFD000F346B1 /* BGCollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B85AD8BE1BDCAFD000F346B1 /* BGCollectionViewTests.m */; };
 		B85AD8CA1BDCAFD000F346B1 /* BGCollectionViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B85AD8C91BDCAFD000F346B1 /* BGCollectionViewUITests.m */; };
+		B8BDBA141BE7C98A00F3FBCE /* BGCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDBA0F1BE7C98A00F3FBCE /* BGCollectionView.m */; };
+		B8BDBA151BE7C98A00F3FBCE /* BGCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDBA111BE7C98A00F3FBCE /* BGCollectionViewCell.m */; };
+		B8BDBA161BE7C98A00F3FBCE /* BGCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDBA131BE7C98A00F3FBCE /* BGCollectionViewFlowLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,12 +67,6 @@
 		B83B022E1BDCC927009B12E4 /* UIView+Extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extra.m"; sourceTree = "<group>"; };
 		B83B02321BDCD077009B12E4 /* BGCollectionView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BGCollectionView-Prefix.pch"; sourceTree = "<group>"; };
 		B83B02331BDCD0A3009B12E4 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		B83B02351BDD1186009B12E4 /* BGCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGCollectionView.h; sourceTree = "<group>"; };
-		B83B02361BDD1186009B12E4 /* BGCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGCollectionView.m; sourceTree = "<group>"; };
-		B83B02381BDD1198009B12E4 /* BGCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGCollectionViewCell.h; sourceTree = "<group>"; };
-		B83B02391BDD1198009B12E4 /* BGCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGCollectionViewCell.m; sourceTree = "<group>"; };
-		B83B023B1BDD11BF009B12E4 /* BGCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGCollectionViewFlowLayout.h; sourceTree = "<group>"; };
-		B83B023C1BDD11BF009B12E4 /* BGCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		B83B02401BDD1561009B12E4 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		B83B02411BDD1561009B12E4 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		B83B02421BDD1561009B12E4 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -131,6 +125,12 @@
 		B85AD8C51BDCAFD000F346B1 /* BGCollectionViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BGCollectionViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B85AD8C91BDCAFD000F346B1 /* BGCollectionViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGCollectionViewUITests.m; sourceTree = "<group>"; };
 		B85AD8CB1BDCAFD000F346B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8BDBA0E1BE7C98A00F3FBCE /* BGCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGCollectionView.h; sourceTree = "<group>"; };
+		B8BDBA0F1BE7C98A00F3FBCE /* BGCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGCollectionView.m; sourceTree = "<group>"; };
+		B8BDBA101BE7C98A00F3FBCE /* BGCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGCollectionViewCell.h; sourceTree = "<group>"; };
+		B8BDBA111BE7C98A00F3FBCE /* BGCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGCollectionViewCell.m; sourceTree = "<group>"; };
+		B8BDBA121BE7C98A00F3FBCE /* BGCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		B8BDBA131BE7C98A00F3FBCE /* BGCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,19 +165,6 @@
 				B83B022E1BDCC927009B12E4 /* UIView+Extra.m */,
 			);
 			name = extension;
-			sourceTree = "<group>";
-		};
-		B83B02341BDD115D009B12E4 /* waterflow */ = {
-			isa = PBXGroup;
-			children = (
-				B83B02351BDD1186009B12E4 /* BGCollectionView.h */,
-				B83B02361BDD1186009B12E4 /* BGCollectionView.m */,
-				B83B023B1BDD11BF009B12E4 /* BGCollectionViewFlowLayout.h */,
-				B83B023C1BDD11BF009B12E4 /* BGCollectionViewFlowLayout.m */,
-				B83B02381BDD1198009B12E4 /* BGCollectionViewCell.h */,
-				B83B02391BDD1198009B12E4 /* BGCollectionViewCell.m */,
-			);
-			name = waterflow;
 			sourceTree = "<group>";
 		};
 		B83B023F1BDD1561009B12E4 /* SDWebImage */ = {
@@ -272,8 +259,8 @@
 				B85AD8A81BDCAFD000F346B1 /* AppDelegate.m */,
 				B85AD8AA1BDCAFD000F346B1 /* RootViewController.h */,
 				B85AD8AB1BDCAFD000F346B1 /* RootViewController.m */,
-				B83B02341BDD115D009B12E4 /* waterflow */,
 				B83B02331BDCD0A3009B12E4 /* Common.h */,
+				B8BDBA0D1BE7C98A00F3FBCE /* WaterFlow */,
 				B83B02751BDD2326009B12E4 /* EGOTableViewPullRefresh */,
 				B83B023F1BDD1561009B12E4 /* SDWebImage */,
 				B83B02301BDCC937009B12E4 /* extension */,
@@ -311,6 +298,19 @@
 			);
 			path = BGCollectionViewUITests;
 			sourceTree = "<group>";
+		};
+		B8BDBA0D1BE7C98A00F3FBCE /* WaterFlow */ = {
+			isa = PBXGroup;
+			children = (
+				B8BDBA0E1BE7C98A00F3FBCE /* BGCollectionView.h */,
+				B8BDBA0F1BE7C98A00F3FBCE /* BGCollectionView.m */,
+				B8BDBA101BE7C98A00F3FBCE /* BGCollectionViewCell.h */,
+				B8BDBA111BE7C98A00F3FBCE /* BGCollectionViewCell.m */,
+				B8BDBA121BE7C98A00F3FBCE /* BGCollectionViewFlowLayout.h */,
+				B8BDBA131BE7C98A00F3FBCE /* BGCollectionViewFlowLayout.m */,
+			);
+			path = WaterFlow;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -452,18 +452,19 @@
 				B83B026F1BDD1561009B12E4 /* UIImageView+WebCache.m in Sources */,
 				B83B026B1BDD1561009B12E4 /* UIImage+GIF.m in Sources */,
 				B83B02641BDD1561009B12E4 /* SDWebImageCompat.m in Sources */,
+				B8BDBA141BE7C98A00F3FBCE /* BGCollectionView.m in Sources */,
 				B83B026A1BDD1561009B12E4 /* UIButton+WebCache.m in Sources */,
+				B8BDBA151BE7C98A00F3FBCE /* BGCollectionViewCell.m in Sources */,
 				B83B026C1BDD1561009B12E4 /* UIImage+MultiFormat.m in Sources */,
 				B83B02691BDD1561009B12E4 /* SDWebImagePrefetcher.m in Sources */,
-				B83B023D1BDD11BF009B12E4 /* BGCollectionViewFlowLayout.m in Sources */,
 				B83B02701BDD1561009B12E4 /* UIView+WebCacheOperation.m in Sources */,
 				B83B02611BDD1561009B12E4 /* MKAnnotationView+WebCache.m in Sources */,
 				B83B026D1BDD1561009B12E4 /* UIImage+WebP.m in Sources */,
 				B85AD8AC1BDCAFD000F346B1 /* RootViewController.m in Sources */,
 				B83B02671BDD1561009B12E4 /* SDWebImageDownloaderOperation.m in Sources */,
+				B8BDBA161BE7C98A00F3FBCE /* BGCollectionViewFlowLayout.m in Sources */,
 				B83B02811BDD2326009B12E4 /* EGORefreshTableHeaderView.m in Sources */,
 				B83B02651BDD1561009B12E4 /* SDWebImageDecoder.m in Sources */,
-				B83B023A1BDD1198009B12E4 /* BGCollectionViewCell.m in Sources */,
 				B83B026E1BDD1561009B12E4 /* UIImageView+HighlightedWebCache.m in Sources */,
 				B83B02621BDD1561009B12E4 /* NSData+ImageContentType.m in Sources */,
 				B83B02661BDD1561009B12E4 /* SDWebImageDownloader.m in Sources */,
@@ -471,7 +472,6 @@
 				B85AD8A91BDCAFD000F346B1 /* AppDelegate.m in Sources */,
 				B85AD8A61BDCAFD000F346B1 /* main.m in Sources */,
 				B83B02681BDD1561009B12E4 /* SDWebImageManager.m in Sources */,
-				B83B02371BDD1186009B12E4 /* BGCollectionView.m in Sources */,
 				B83B02631BDD1561009B12E4 /* SDImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
