@@ -33,7 +33,8 @@
     self.dataList = [NSMutableArray array];
     self.dataSource = self;
     self.delegate = self;
-    //    [self registerNib:[UINib nibWithNibName:@"WaterFlowCell" bundle:nil] forCellWithReuseIdentifier:@"waterFlowCell"];
+    //在没有数据的时候无法下拉，把这个属性打开，默认为NO
+    self.alwaysBounceVertical = YES;
     [self registerClass:[BGCollectionViewCell class] forCellWithReuseIdentifier:@"bGCollectionViewCell"];
     [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"bGCollectionHeaderView"];
     [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"bGCollectionFooterView"];
@@ -47,14 +48,12 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.dataList.count;
-    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellId = @"bGCollectionViewCell";
     BGCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
     cell.urlStr = self.dataList[indexPath.row];
-    
     [cell setNeedsLayout];
     return cell;
 }
@@ -132,7 +131,6 @@
 }
 
 - (void)loadMoreDataLoadingUI {
-//    [_loadMoreButton setTitle:@"正在加载中..." forState:UIControlStateNormal];
     _showHintDescLabel.text = @"正在加载中...";
     [self refreshHintLabelFrame];
     [_activityView stopAnimating];
@@ -145,7 +143,6 @@
     if (self.dataList.count > 0) {
         _loadMoreButton.hidden = NO;
         _loadMoreButton.enabled = YES;
-//        [_loadMoreButton setTitle:@"上拉加载更多图片..." forState:UIControlStateNormal];
         _showHintDescLabel.text = @"上拉加载更多图片...";
         [self refreshHintLabelFrame];
         [_activityView stopAnimating];
