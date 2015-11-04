@@ -11,6 +11,7 @@
 #import "BGCollectionViewFlowLayout.h"
 
 static const CGFloat delayTiemSecond = 3;
+
 @interface RootViewController () <BGCollectionViewFlowLayoutDelegate>
 {
     BGCollectionView *_waterFlowCollectionView;
@@ -24,7 +25,6 @@ static const CGFloat delayTiemSecond = 3;
     [super viewDidLoad];
     self.title = @"瀑布流式布局";
     self.navigationController.navigationBar.translucent = NO;
-//    [self loadPicturesUrlData];
     [self loadPicturesUrlDataFromPlistFile];
     [self initSubviews];
     // Do any additional setup after loading the view, typically from a nib.
@@ -78,15 +78,11 @@ static const CGFloat delayTiemSecond = 3;
 }
 
 - (void)initSubviews {
-#if 1
+#if CHANGE_MODEL
     BGCollectionViewFlowLayout *waterFlowLayout = [[BGCollectionViewFlowLayout alloc] init];
     waterFlowLayout.delegate = self;
     waterFlowLayout.columnNum = 4;
     waterFlowLayout.itemSpacing = 15;
-//    waterFlowLayout.topSpacing = 10;
-//    waterFlowLayout.bottomSpacing = 60;
-//    waterFlowLayout.leftSpacing = 10;
-//    waterFlowLayout.rightSpacing = 10;
     waterFlowLayout.bSectionInset = BGEdgeInsetsMake(10, 10, 10, 10);
 #else
     UICollectionViewFlowLayout *waterFlowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -95,7 +91,6 @@ static const CGFloat delayTiemSecond = 3;
 #endif
     
     _waterFlowCollectionView = [[BGCollectionView alloc]initWithFrame:CGRectMake(0, 0, bScreenWidth, bScreenHeight - 64) collectionViewLayout:waterFlowLayout];
-//    [waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr];
     __weak __typeof(self)weakSelf = self;
     _waterFlowCollectionView.pullDownRefreshBlock = ^(UICollectionView *collectionView) {
         [weakSelf performSelector:@selector(loadNewRefreshData) withObject:nil afterDelay:delayTiemSecond];
@@ -115,7 +110,6 @@ static const CGFloat delayTiemSecond = 3;
                    layout:(BGCollectionViewFlowLayout *)layout
  heightForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    return 100;
     return 100 + (rand() % 100);
 }
 
