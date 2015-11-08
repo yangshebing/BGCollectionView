@@ -11,6 +11,7 @@
 {
     CGFloat _itemWidth;
     CGFloat _footerHeight;
+    CGFloat _maxHeight;
 }
 
 @property (nonatomic, strong) NSMutableDictionary *columnMaxYValueDic;
@@ -26,11 +27,11 @@
     self.cellLayoutInfoDic = [NSMutableDictionary dictionary];
     self.headerLayoutAttributes = nil;
     self.footerLayoutAttributes = nil;
-    self.headerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    self.headerLayoutAttributes.frame = CGRectMake(0, 0, self.headerReferenceSize.width, self.headerReferenceSize.height);
+    if (self.headerReferenceSize.height > 0) {
+        self.headerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        self.headerLayoutAttributes.frame = CGRectMake(0, 0, self.headerReferenceSize.width, self.headerReferenceSize.height);
+    }
     
-    self.footerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    self.footerLayoutAttributes.frame = CGRectMake(0, 0, self.footerReferenceSize.width, self.footerReferenceSize.height);
     CGFloat currentColumn = 0;
     _itemWidth = (self.collectionView.frame.size.width - (self.sectionInset.left + self.sectionInset.right) - ((self.columnNum - 1) * self.minimumInteritemSpacing)) / self.columnNum;
     
@@ -53,9 +54,11 @@
         }
     }
     
-    CGFloat maxHeight = [self getMaxHeightFromMaxYValue];
-    self.footerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    self.footerLayoutAttributes.frame = CGRectMake(0, maxHeight, self.footerReferenceSize.width, self.footerReferenceSize.height);
+    _maxHeight = [self getMaxHeightFromMaxYValue];
+    if (self.footerReferenceSize.height > 0) {
+        self.footerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        self.footerLayoutAttributes.frame = CGRectMake(0, _maxHeight, self.footerReferenceSize.width, self.footerReferenceSize.height);
+    }
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
@@ -81,8 +84,7 @@
 }
 
 - (CGSize) collectionViewContentSize {
-    CGFloat maxHeight = [self getMaxHeightFromMaxYValue];
-    return CGSizeMake(self.collectionView.frame.size.width, maxHeight + self.footerReferenceSize.height + self.sectionInset.bottom);
+    return CGSizeMake(self.collectionView.frame.size.width, _maxHeight + self.footerReferenceSize.height + self.sectionInset.bottom);
 }
 
 - (CGFloat)getMaxHeightFromMaxYValue
