@@ -15,7 +15,8 @@
 
 @property (nonatomic, strong) NSMutableDictionary *columnMaxYValueDic;
 @property (nonatomic, strong) NSMutableDictionary *cellLayoutInfoDic;
-
+@property (nonatomic, strong) UICollectionViewLayoutAttributes *headerLayoutAttributes;
+@property (nonatomic, strong) UICollectionViewLayoutAttributes *footerLayoutAttributes;
 @end
 
 @implementation BGCollectionViewFlowLayout
@@ -23,31 +24,38 @@
     [super prepareLayout];
     self.columnMaxYValueDic = [NSMutableDictionary dictionary];
     self.cellLayoutInfoDic = [NSMutableDictionary dictionary];
+    self.headerLayoutAttributes = nil;
+    self.footerLayoutAttributes = nil;
+    self.headerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    self.headerLayoutAttributes.frame = CGRectMake(0, 0, self.headerReferenceSize.width, self.headerReferenceSize.height);
+    
+    self.footerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    self.footerLayoutAttributes.frame = CGRectMake(0, 0, self.footerReferenceSize.width, self.footerReferenceSize.height);
     CGFloat currentColumn = 0;
-    _itemWidth = (self.collectionView.frame.size.width - (self.itemSpacing * (self.columnNum + 1)) - (self.bSectionInset.left - self.itemSpacing) * 2) / self.columnNum;
+    _itemWidth = (self.collectionView.frame.size.width - (self.sectionInset.left + self.sectionInset.right) - ((self.columnNum - 1) * self.minimumInteritemSpacing)) / self.columnNum;
     
     NSIndexPath *indexPath = nil;
     NSInteger numSections = [self.collectionView numberOfSections];
-    
     for(NSInteger section = 0; section < numSections; section++)  {
         NSInteger numItems = [self.collectionView numberOfItemsInSection:section];
         for(NSInteger item = 0; item < numItems; item++){
             indexPath = [NSIndexPath indexPathForItem:item inSection:section];
-            UICollectionViewLayoutAttributes *itemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-            CGFloat x = self.itemSpacing + (self.itemSpacing + _itemWidth) * currentColumn + (self.bSectionInset.left - self.itemSpacing);
+             UICollectionViewLayoutAttributes *itemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+            CGFloat x = self.sectionInset.left + (self.minimumInteritemSpacing + self.itemWidth) * currentColumn;
             CGFloat y = [self.columnMaxYValueDic[@(currentColumn)] doubleValue];
-            if (item < self.columnNum) {
-                y = self.bSectionInset.top;
-            }
             CGFloat height = [self.delegate collectionView:self.collectionView layout:self heightForItemAtIndexPath:indexPath];
-            itemAttributes.frame = CGRectMake(x, y, _itemWidth, height);
-            y += (height + self.itemSpacing);
+            itemAttributes.frame = CGRectMake(x, self.sectionInset.top + y, _itemWidth, height);
+            y += (height + self.minimumLineSpacing);
             self.columnMaxYValueDic[@(currentColumn)] = @(y);
             currentColumn++;
             if(currentColumn == self.columnNum) currentColumn = 0;
             self.cellLayoutInfoDic[indexPath] = itemAttributes;
         }
     }
+    
+    CGFloat maxHeight = [self getMaxHeightFromMaxYValue];
+    self.footerLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter withIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    self.footerLayoutAttributes.frame = CGRectMake(0, maxHeight, self.footerReferenceSize.width, self.footerReferenceSize.height);
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
@@ -60,35 +68,21 @@
         }
     }];
     
-    UICollectionViewLayoutAttributes *headerAtt = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    if (CGRectIntersectsRect(rect, headerAtt.frame)) {
-        [attributesArrs addObject:headerAtt];
+    
+    if (self.headerLayoutAttributes && CGRectIntersectsRect(rect, self.headerLayoutAttributes.frame)) {
+        [attributesArrs addObject:self.headerLayoutAttributes];
     }
     
-    
-    UICollectionViewLayoutAttributes *footerAtt = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter atIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    if (CGRectIntersectsRect(rect, footerAtt.frame)) {
-        [attributesArrs addObject:footerAtt];
+    if (self.footerLayoutAttributes && CGRectIntersectsRect(rect, self.footerLayoutAttributes.frame)) {
+        [attributesArrs addObject:self.footerLayoutAttributes];
     }
     
     return attributesArrs;
 }
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewLayoutAttributes *attributes = [super layoutAttributesForSupplementaryViewOfKind:elementKind atIndexPath:indexPath];
-    if ([elementKind isEqualToString:UICollectionElementKindSectionFooter]) {
-        _footerHeight = attributes.frame.size.height;
-        CGFloat maxHeight = [self getMaxHeightFromMaxYValue];
-        attributes.frame = CGRectMake(0, maxHeight, attributes.frame.size.width, _footerHeight);
-    }
-    
-    return attributes;
-}
-
 - (CGSize) collectionViewContentSize {
     CGFloat maxHeight = [self getMaxHeightFromMaxYValue];
-    return CGSizeMake(self.collectionView.frame.size.width, maxHeight + _footerHeight + self.bSectionInset.bottom);
+    return CGSizeMake(self.collectionView.frame.size.width, maxHeight + self.footerReferenceSize.height + self.sectionInset.bottom);
 }
 
 - (CGFloat)getMaxHeightFromMaxYValue
@@ -104,6 +98,15 @@
     }
     
     return maxHeight;
+}
+
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+    CGRect oldBounds = self.collectionView.bounds;
+    if (CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - Getter/Setter Method

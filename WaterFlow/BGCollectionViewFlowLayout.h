@@ -16,11 +16,14 @@
  heightForItemAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
-@interface BGCollectionViewFlowLayout : UICollectionViewFlowLayout
+@interface BGCollectionViewFlowLayout : UICollectionViewLayout
 @property (nonatomic, assign) NSUInteger columnNum;
-@property (nonatomic, assign) CGFloat itemSpacing;
 @property (nonatomic, assign, readonly) CGFloat itemWidth;
 @property (nonatomic, weak) id<BGCollectionViewFlowLayoutDelegate> delegate;
-@property (nonatomic)         BGEdgeInsets bSectionInset;
+@property (nonatomic) CGFloat minimumLineSpacing;
+@property (nonatomic) CGFloat minimumInteritemSpacing;
+@property (nonatomic) CGSize headerReferenceSize;
+@property (nonatomic) CGSize footerReferenceSize;
+@property (nonatomic) UIEdgeInsets sectionInset;
 
 @end

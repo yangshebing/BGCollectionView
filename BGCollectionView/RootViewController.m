@@ -9,6 +9,12 @@
 #import "RootViewController.h"
 #import "BGCollectionView.h"
 #import "BGCollectionViewFlowLayout.h"
+//system
+#define bScreenWidth [UIScreen mainScreen].bounds.size.width
+#define bScreenHeight [UIScreen mainScreen].bounds.size.height
+
+//user
+#define CHANGE_MODEL 1
 
 static const CGFloat delayTiemSecond = 3;
 
@@ -16,7 +22,8 @@ static const CGFloat delayTiemSecond = 3;
 {
     BGCollectionView *_waterFlowCollectionView;
 }
-
+@property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) NSArray *tempArr;
 @end
 
 @implementation RootViewController
@@ -25,6 +32,8 @@ static const CGFloat delayTiemSecond = 3;
     [super viewDidLoad];
     self.title = @"瀑布流式布局";
     self.navigationController.navigationBar.translucent = NO;
+    self.dataArr = [NSArray array];
+    self.tempArr = [NSArray array];
     [self loadPicturesUrlDataFromPlistFile];
     [self initSubviews];
     // Do any additional setup after loading the view, typically from a nib.
@@ -48,9 +57,11 @@ static const CGFloat delayTiemSecond = 3;
 }
 
 - (void)loadNewRefreshData {
+    
     if (self.dataArr.count > 0) {
+        self.tempArr = self.dataArr[0];
         [_waterFlowCollectionView.dataList removeAllObjects];
-        [_waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr[0]];
+        [_waterFlowCollectionView.dataList addObjectsFromArray:self.tempArr];
     }
     if (_waterFlowCollectionView.dataList.count < 21) {
         _waterFlowCollectionView.isPullMore = NO;
@@ -64,10 +75,11 @@ static const CGFloat delayTiemSecond = 3;
 
 - (void)loadMoreRefreshData {
     if (self.dataArr.count > 0) {
-        [_waterFlowCollectionView.dataList addObjectsFromArray:self.dataArr[1]];
+        self.tempArr = self.dataArr[1];
+        [_waterFlowCollectionView.dataList addObjectsFromArray:self.tempArr];
     }
     
-    if (_waterFlowCollectionView.dataList.count < 21) {
+    if (self.tempArr.count < 21) {
         _waterFlowCollectionView.isPullMore = NO;
     } else {
         _waterFlowCollectionView.isPullMore = YES;
@@ -82,8 +94,12 @@ static const CGFloat delayTiemSecond = 3;
     BGCollectionViewFlowLayout *waterFlowLayout = [[BGCollectionViewFlowLayout alloc] init];
     waterFlowLayout.delegate = self;
     waterFlowLayout.columnNum = 4;
-    waterFlowLayout.itemSpacing = 15;
-    waterFlowLayout.bSectionInset = BGEdgeInsetsMake(10, 10, 10, 10);
+    waterFlowLayout.minimumInteritemSpacing = 15;
+    waterFlowLayout.minimumLineSpacing = 8;
+    waterFlowLayout.headerReferenceSize = CGSizeMake(bScreenWidth, 0.1);
+    waterFlowLayout.footerReferenceSize = CGSizeMake(bScreenWidth, 60);
+    waterFlowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    
 #else
     UICollectionViewFlowLayout *waterFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     waterFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;

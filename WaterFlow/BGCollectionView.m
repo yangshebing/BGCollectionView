@@ -8,7 +8,11 @@
 
 #import "BGCollectionView.h"
 #import "BGCollectionViewCell.h"
-
+//color
+#define UIColorFromHex(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+static NSString * const BGCellReuseIdentifier = @"bGCollectionViewCell";
+static NSString * const BGHeaderReuseIdentifier = @"bGCollectionHeaderView";
+static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
 @interface BGCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EGORefreshTableHeaderDelegate>
 
 @end
@@ -31,9 +35,9 @@
     self.delegate = self;
     //在没有数据的时候无法下拉，把这个属性打开，默认为NO
     self.alwaysBounceVertical = YES;
-    [self registerClass:[BGCollectionViewCell class] forCellWithReuseIdentifier:@"bGCollectionViewCell"];
-    [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"bGCollectionHeaderView"];
-    [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"bGCollectionFooterView"];
+    [self registerClass:[BGCollectionViewCell class] forCellWithReuseIdentifier:BGCellReuseIdentifier];
+    [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:BGHeaderReuseIdentifier];
+    [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:BGFooterReuseIdentifier];
     self.showsVerticalScrollIndicator = NO;
     self.backgroundColor = UIColorFromHex(0xf5f5f5);
 }
@@ -67,7 +71,7 @@
     
     if([kind isEqual:UICollectionElementKindSectionHeader]) {
         //解决多组造成的下拉刷新UI显示异常
-       UICollectionReusableView *collectionHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"bGCollectionHeaderView" forIndexPath:indexPath];
+       UICollectionReusableView *collectionHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:BGHeaderReuseIdentifier forIndexPath:indexPath];
         
         if (!_refreshTableHeaderView) {
             _refreshTableHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height)];
@@ -79,26 +83,26 @@
         
         return collectionHeaderView;
     } else if([kind isEqual:UICollectionElementKindSectionFooter]) {
-        UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"bGCollectionFooterView" forIndexPath:indexPath];
+        UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:BGFooterReuseIdentifier forIndexPath:indexPath];
         if (!_loadMoreButton) {
-                    _loadMoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    _loadMoreButton.backgroundColor = [UIColor clearColor];
-                    _loadMoreButton.frame = CGRectMake(0, 0, bScreenWidth, 40);
-                    UIFont *font1 = [UIFont systemFontOfSize:13.0];
-                    [_loadMoreButton addTarget:self action:@selector(loadMoreDataAction) forControlEvents:UIControlEventTouchUpInside];
-                    _showHintDescLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bScreenWidth, 13)];
-                    _showHintDescLabel.text = @"正在加载";
-                    _showHintDescLabel.font = font1;
-                    _showHintDescLabel.textColor = UIColorFromHex(0xaaaaaa);
-                    [_loadMoreButton addSubview:_showHintDescLabel];
-                    _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-                    _activityView.frame = CGRectMake(100, 10, 20, 20);
-                    _activityView.hidden = NO;
-                    [_activityView startAnimating];
-                    [self refreshHintLabelFrame];
-                    [_loadMoreButton addSubview:_activityView];
-                    [collectionFooterView addSubview:_loadMoreButton];
-                }
+            _loadMoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            _loadMoreButton.backgroundColor = [UIColor clearColor];
+            _loadMoreButton.frame = CGRectMake(0, 0, self.width, 40);
+            UIFont *font1 = [UIFont systemFontOfSize:13.0];
+            [_loadMoreButton addTarget:self action:@selector(loadMoreDataAction) forControlEvents:UIControlEventTouchUpInside];
+            _showHintDescLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 13)];
+            _showHintDescLabel.text = @"正在加载";
+            _showHintDescLabel.font = font1;
+            _showHintDescLabel.textColor = UIColorFromHex(0xaaaaaa);
+            [_loadMoreButton addSubview:_showHintDescLabel];
+            _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            _activityView.frame = CGRectMake(100, 10, 20, 20);
+            _activityView.hidden = NO;
+            [_activityView startAnimating];
+            [self refreshHintLabelFrame];
+            [_loadMoreButton addSubview:_activityView];
+            [collectionFooterView addSubview:_loadMoreButton];
+        }
         
         return collectionFooterView;
     }
@@ -130,7 +134,6 @@
 - (void)loadMoreDataLoadingUI {
     _showHintDescLabel.text = @"正在加载中...";
     [self refreshHintLabelFrame];
-    [_activityView stopAnimating];
     _loadMoreButton.enabled = NO;
     [_activityView startAnimating];
 }
@@ -211,7 +214,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake((bScreenWidth - 30 - 20) / 3.0, (bScreenWidth - 30 - 20) / 3.0);
+    return CGSizeMake((self.width - 30 - 20) / 3.0, (self.width - 30 - 20) / 3.0);
 }
 
 
