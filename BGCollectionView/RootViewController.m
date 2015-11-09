@@ -63,11 +63,11 @@ static const CGFloat delayTiemSecond = 3;
         [_waterFlowCollectionView.dataList removeAllObjects];
         [_waterFlowCollectionView.dataList addObjectsFromArray:self.tempArr];
     }
-    if (_waterFlowCollectionView.dataList.count < 21) {
-        _waterFlowCollectionView.isPullMore = NO;
-    } else {
-        _waterFlowCollectionView.isPullMore = YES;
-    }
+//    if (_waterFlowCollectionView.dataList.count < 21) {
+//        _waterFlowCollectionView.isPullMore = NO;
+//    } else {
+//        _waterFlowCollectionView.isPullMore = YES;
+//    }
 
     [_waterFlowCollectionView reloadData];
     [_waterFlowCollectionView pullDownLoadingData];

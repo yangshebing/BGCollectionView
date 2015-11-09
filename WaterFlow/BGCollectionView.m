@@ -87,22 +87,29 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
         if (!_loadMoreButton) {
             _loadMoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
             _loadMoreButton.backgroundColor = [UIColor clearColor];
-            _loadMoreButton.frame = CGRectMake(0, 0, self.width, 40);
+            _loadMoreButton.frame = CGRectMake(0, 0, self.frame.size.width, 40);
             UIFont *font1 = [UIFont systemFontOfSize:13.0];
             [_loadMoreButton addTarget:self action:@selector(loadMoreDataAction) forControlEvents:UIControlEventTouchUpInside];
-            _showHintDescLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 13)];
-            _showHintDescLabel.text = @"正在加载";
+            _showHintDescLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 13)];
+            _showHintDescLabel.text = @"上拉加载更多图片...";
             _showHintDescLabel.font = font1;
             _showHintDescLabel.textColor = UIColorFromHex(0xaaaaaa);
             [_loadMoreButton addSubview:_showHintDescLabel];
             _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             _activityView.frame = CGRectMake(100, 10, 20, 20);
             _activityView.hidden = NO;
-            [_activityView startAnimating];
-            [self refreshHintLabelFrame];
             [_loadMoreButton addSubview:_activityView];
             [collectionFooterView addSubview:_loadMoreButton];
         }
+        
+        if (self.dataList.count > 0) {
+            _showHintDescLabel.text = @"上拉加载更多图片...";
+            [_activityView stopAnimating];
+        } else {
+            _showHintDescLabel.text = @"加载中...";
+            [_activityView startAnimating];
+        }
+        [self refreshHintLabelFrame];
         
         return collectionFooterView;
     }
@@ -124,11 +131,11 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
 - (void)refreshHintLabelFrame {
     NSDictionary *showHintLabelAttDic = [NSDictionary dictionaryWithObjectsAndKeys:_showHintDescLabel.font,NSFontAttributeName, nil];
     CGSize showHintLabelRect = [_showHintDescLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, 13) options:NSStringDrawingUsesFontLeading attributes:showHintLabelAttDic context:nil].size;
-    _showHintDescLabel.size = showHintLabelRect;
-    _showHintDescLabel.top = (_loadMoreButton.height - _showHintDescLabel.height) / 2.0;
-    _showHintDescLabel.left = (_loadMoreButton.width - _showHintDescLabel.width) / 2.0;
-    _activityView.right = _showHintDescLabel.left - 5;
-    _activityView.top = (_loadMoreButton.height - _activityView.height) / 2.0;
+    CGRect frame = CGRectMake(_showHintDescLabel.frame.origin.x, _showHintDescLabel.frame.origin.y, showHintLabelRect.width, showHintLabelRect.height);
+    frame = CGRectMake((_loadMoreButton.frame.size.width - frame.size.width) / 2.0, (_loadMoreButton.frame.size.height - frame.size.height) / 2.0, frame.size.width, frame.size.height);
+    _showHintDescLabel.frame = frame;
+    CGRect activityFrame = CGRectMake(CGRectGetMinX(_showHintDescLabel.frame) - 5 - _activityView.frame.size.width, (_loadMoreButton.frame.size.height - _activityView.frame.size.height) / 2.0, _activityView.frame.size.width, _activityView.frame.size.height);
+    _activityView.frame = activityFrame;
 }
 
 - (void)loadMoreDataLoadingUI {
@@ -172,7 +179,7 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     [_refreshTableHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
     float sub = scrollView.contentSize.height - scrollView.contentOffset.y;
-    if (scrollView.height - sub > 60) {
+    if (scrollView.frame.size.height - sub > 60) {
         [self loadMoreDataAction];
     }
 }
@@ -206,15 +213,15 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section  {
-    return CGSizeMake(collectionView.width, 0.1);
+    return CGSizeMake(collectionView.frame.size.width, 0.1);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    return CGSizeMake(collectionView.width, 60);
+    return CGSizeMake(collectionView.frame.size.width, 60);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake((self.width - 30 - 20) / 3.0, (self.width - 30 - 20) / 3.0);
+    return CGSizeMake((self.frame.size.width - 30 - 20) / 3.0, (self.frame.size.width - 30 - 20) / 3.0);
 }
 
 
