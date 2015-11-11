@@ -13,8 +13,13 @@
 static NSString * const BGCellReuseIdentifier = @"bGCollectionViewCell";
 static NSString * const BGHeaderReuseIdentifier = @"bGCollectionHeaderView";
 static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
-@interface BGCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EGORefreshTableHeaderDelegate>
-
+@interface BGCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EGORefreshTableHeaderDelegate> {
+    EGORefreshTableHeaderView *_refreshTableHeaderView;
+    BOOL _reloading;
+    UIButton *_loadMoreButton;
+    UIActivityIndicatorView *_activityView;
+    UILabel *_showHintDescLabel;
+}
 @end
 
 @implementation BGCollectionView
@@ -197,13 +202,11 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
--  (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
+-  (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 10;
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 10;
 }
 

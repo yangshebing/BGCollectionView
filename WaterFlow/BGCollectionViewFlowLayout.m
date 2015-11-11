@@ -10,13 +10,23 @@
 @interface BGCollectionViewFlowLayout ()
 {
     CGFloat _itemWidth;
-    CGFloat _footerHeight;
     CGFloat _maxHeight;
 }
-
+/**
+ *  保留当前列最大的Y坐标值
+ */
 @property (nonatomic, strong) NSMutableDictionary *columnMaxYValueDic;
+/**
+ *  保存Item布局信息
+ */
 @property (nonatomic, strong) NSMutableDictionary *cellLayoutInfoDic;
+/**
+ *  组头布局属性
+ */
 @property (nonatomic, strong) UICollectionViewLayoutAttributes *headerLayoutAttributes;
+/**
+ *  组尾布局属性
+ */
 @property (nonatomic, strong) UICollectionViewLayoutAttributes *footerLayoutAttributes;
 @end
 
@@ -83,12 +93,11 @@
     return attributesArrs;
 }
 
-- (CGSize) collectionViewContentSize {
+- (CGSize)collectionViewContentSize {
     return CGSizeMake(self.collectionView.frame.size.width, _maxHeight + self.footerReferenceSize.height + self.sectionInset.bottom);
 }
 
-- (CGFloat)getMaxHeightFromMaxYValue
-{
+- (CGFloat)getMaxHeightFromMaxYValue {
     NSUInteger currentColumn = 0;
     CGFloat maxHeight = 0;
     while (self.columnNum >= currentColumn) {
@@ -102,8 +111,7 @@
     return maxHeight;
 }
 
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
-{
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
     CGRect oldBounds = self.collectionView.bounds;
     if (CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)) {
         return YES;
@@ -112,8 +120,7 @@
 }
 
 #pragma mark - Getter/Setter Method
-- (CGFloat)itemWidth
-{
+- (CGFloat)itemWidth {
     return _itemWidth;
 }
 

@@ -13,19 +13,25 @@ typedef void (^PullDownRefreshBlock)(UICollectionView *collectionView);
 typedef void (^PullUpRefreshBlock)(UICollectionView *collectionView);
 
 @interface BGCollectionView : UICollectionView
-{
-    EGORefreshTableHeaderView *_refreshTableHeaderView;
-    BOOL _reloading;
-    UIButton *_loadMoreButton;
-    UIActivityIndicatorView *_activityView;
-    UILabel *_showHintDescLabel;
-}
-
+/**
+ *  数据源
+ */
 @property (nonatomic, strong)  NSMutableArray *dataList;
-@property(nonatomic,copy)PullDownRefreshBlock pullDownRefreshBlock;
-@property(nonatomic,copy)PullUpRefreshBlock pullUpRefreshBlock;
-@property(nonatomic, assign)BOOL isPullMore;
+/**
+ *  下拉刷新
+ */
+@property (nonatomic,copy)     PullDownRefreshBlock pullDownRefreshBlock;
+/**
+ *  上拉刷新
+ */
+@property (nonatomic,copy)     PullUpRefreshBlock pullUpRefreshBlock;
+@property (nonatomic, assign)  BOOL isPullMore;
+/**
+ *  下拉刷新加载完数据，重置UI
+ */
 - (void)pullDownLoadingData;
+/**
+ *  上拉刷新加载完数据，重置UI
+ */
 - (void)stopPullUpLoading;
-
 @end
