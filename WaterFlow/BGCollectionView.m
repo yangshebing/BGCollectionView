@@ -40,6 +40,7 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
     [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:BGFooterReuseIdentifier];
     self.showsVerticalScrollIndicator = NO;
     self.backgroundColor = UIColorFromHex(0xf5f5f5);
+    self.isPullMore = YES;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -51,22 +52,13 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellId = @"bGCollectionViewCell";
-    BGCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
+    BGCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:BGCellReuseIdentifier forIndexPath:indexPath];
     cell.urlStr = self.dataList[indexPath.row];
     [cell setNeedsLayout];
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
-
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
     if([kind isEqual:UICollectionElementKindSectionHeader]) {
@@ -122,7 +114,6 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
         return;
     }
     [self loadMoreDataLoadingUI];
-  
     if (self.pullUpRefreshBlock) {
         self.pullUpRefreshBlock(self);
     }
@@ -187,6 +178,10 @@ static NSString * const BGFooterReuseIdentifier = @"bGCollectionFooterView";
 #pragma mark EGORefreshTableHeaderDelegate Methods
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
     if (self.pullDownRefreshBlock) {
+        if (_loadMoreButton.hidden) {
+            _loadMoreButton.hidden = NO;
+        }
+        _isPullMore = YES;
         self.pullDownRefreshBlock(self);
     }
 }
