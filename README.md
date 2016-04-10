@@ -2,9 +2,22 @@
 BGCollectionView是基于UICollectionView（纯代码方式）实现上下拉刷新加载数据的瀑布流式（WaterFlow）布局，
 其中集成下拉刷新采用的是EGORefreshTableHeaderView。
 
-##使用方法：
+##环境要求
+
+* iOS6.0+
+* Xcod7.0+
+
+##安装方法
+
+####CocoaPods安装方式:
+
+` pod "BGCollectionView"`
+
+####手动安装方式：
 
 导入"WaterFlow"与"EGOTableViewPullRefresh"文件夹至目标工程中。
+
+##使用方法
 
 （1）创建自定义瀑布流式布局
 
@@ -50,3 +63,7 @@ BGCollectionView是基于UICollectionView（纯代码方式）实现上下拉刷
     return 100 + (rand() % 100);
 }
 ```
+
+##协议许可
+
+BGCollectionView遵循MIT许可协议。有关详细信息,请参阅许可协议。
