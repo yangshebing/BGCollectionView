@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
   #开源项目首页
   spec.homepage	= 'https://github.com/yangshebing/BGCollectionView'
   #作者信息
-  spec.author	= {'shebingYang' => '811068990@qq.com'}
+  spec.author	= {'yangshebing' => '811068990@qq.com'}
   #项目源和版本号
   spec.source	= { :git => 'https://github.com/yangshebing/BGCollectionView.git', :tag => '1.0.0' }
   #源文件，供第三方使用
