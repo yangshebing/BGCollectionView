@@ -64,6 +64,9 @@ BGCollectionView是基于UICollectionView（纯代码方式）实现上下拉刷
 }
 ```
 
+## Demo效果截图
+![demo.gif](https://github.com/yangshebing/BlocResources/blob/main/waterfall.gif)
+
 ## 协议许可
 
 BGCollectionView遵循MIT许可协议。有关详细信息,请参阅许可协议。
